@@ -1,0 +1,22 @@
+{
+    "name": "FtCalliMicro",
+    "version": "0.0.1",
+    "description": "Blocks for driving the PAnic-Equipment FtCalliMicro board",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+		"README.md"
+        "main.ts"
+    ],
+    "testFiles": [
+        "tests.ts"
+    ],
+    "public": true,
+    "supportedTargets": [
+        "microbit",
+		"calliopemini"
+    ],
+    "preferredEditor": "tsprj"
+}
