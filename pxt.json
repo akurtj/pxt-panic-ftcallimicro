@@ -4,19 +4,24 @@
     "description": "Blocks for driving the PAnic-Equipment FtCalliMicro board",
     "license": "MIT",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "microphone": "*"
     },
     "files": [
-		"README.md",
+        "README.md",
         "main.ts"
     ],
     "testFiles": [
         "tests.ts"
     ],
     "public": true,
+    "targetVersions": {
+        "target": "5.0.12",
+        "targetId": "microbit"
+    },
     "supportedTargets": [
         "microbit",
-		"calliopemini"
+        "calliopemini"
     ],
     "preferredEditor": "tsprj"
 }
