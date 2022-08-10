@@ -1,5 +1,5 @@
 {
-    "name": "FtCalliMicro",
+    "name": "panic-ftcallimicro",
     "version": "0.0.1",
     "description": "Blocks for driving the PAnic-Equipment FtCalliMicro board",
     "license": "MIT",
