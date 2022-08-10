@@ -9,7 +9,7 @@
     },
     "files": [
         "README.md",
-        "main.ts"
+        "ftcallimicro.ts"
     ],
     "testFiles": [
         "tests.ts"
