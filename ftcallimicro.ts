@@ -59,6 +59,7 @@ namespace ftcallimicro {
 
     function i2cWrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
+		
         buf[0] = reg
         buf[1] = value
         pins.i2cWriteBuffer(addr, buf)
@@ -66,6 +67,7 @@ namespace ftcallimicro {
 
     function i2cCmd(addr: number, value: number) {
         let buf2 = pins.createBuffer(1)
+		
         buf2[0] = value
         pins.i2cWriteBuffer(addr, buf2)
     }
@@ -75,6 +77,7 @@ namespace ftcallimicro {
         let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE)
         return val
     }
+	
 
     /**
 	 * Servo control function.
@@ -82,6 +85,7 @@ namespace ftcallimicro {
      * 0°~180°.
 	*/
     //% block="Servo|%index|degree|%degree|°"
+	//% blockId=servo_servo
     //% weight=100
     //% degree.min=0 degree.max=180
     //% degree.shadow="protractorPicker"
@@ -89,9 +93,50 @@ namespace ftcallimicro {
     //% group="Servo"
     export function servo(index: Servos, degree: number): void {
 
-        let value = (degree * 2000 / 180 + 2000)
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_SERVO_BASE + index, degree)
+    }
+	
+	/**
+	 * Motor control function: Set motor speed
+     * M1~M4.
+     * speed: 0~100
+    */
+    //% weight=100
+    //% blockId=motor_MotorRun block="Motor|%index|dir|%Dir|speed|%speed|%"
+    //% speed.min=0 speed.max=100
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
+    //% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
+    //% speed.shadow="speedPicker"
+    //% group="Motor"
+    export function MotorRun(index: Motors, direction: Dir, speed: number): void {
+		
+        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + index, speed)
+    }
+	
+	/**
+	 * Motor control function: Stop the motor.
+    */
+    //% weight=90
+    //% blockId=motor_MotorStop block="Motor Stop|%index"
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4 
+    //% group="Motor"
+    export function MotorStop(index: Motors) {
+        
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + index, 0)
+    }
 
-        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_SERVO_BASE + index, value)
+    /**
+	 * Motor control function: Stop all motors
+    */
+    //% weight=85
+    //% blockId=motor_MotorStopAll block="Motor Stop All"
+    //% group="Motor"
+    export function MotorStopAll(): void {
+        
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M1, 0)
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M2, 0)
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M3, 0)
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M4, 0)
     }
 
 }
