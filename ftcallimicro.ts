@@ -1,20 +1,24 @@
 /**
  */
 //% weight=100 color=190 icon="\uf085"
-//% block="Fischertechnik"
+//% block="FtCalliMicro"
 //% groups=['Motor','Servo','Digital Output']
-namespace FtCalliMicro {
+namespace ftcallimicro {
     const FTCALLIMICRO_I2C_ADDRESS = 0x14
+	
+	const I2C_REG_CONFIG_BASE = 0x00
+	const I2C_REG_SERVO_BASE  = 0x10
+	const I2C_REG_MOTOR_BASE  = 0x20
+	const I2C_REG_DO_BASE     = 0x30
 
-    
     /**
      * The user can select the 4 servos.
      */
     export enum Servos {
         S1 = 0x01,
         S2 = 0x02,
-        S3 = 0x04,
-        S4 = 0x08
+        S3 = 0x03,
+        S4 = 0x04
     }
 
     /**
@@ -23,8 +27,8 @@ namespace FtCalliMicro {
     export enum Motors {
         M1 = 0x01,
         M2 = 0x02,
-        M3 = 0x04,
-        M4 = 0x08
+        M3 = 0x03,
+        M4 = 0x04
     }
 	
 	/**
@@ -33,12 +37,12 @@ namespace FtCalliMicro {
     export enum DO {
         DO1 = 0x01,
         DO2 = 0x02,
-        DO3 = 0x04,
-        DO4 = 0x08,
-		DO5 = 0x10,
-        DO6 = 0x20,
-        DO7 = 0x40,
-        DO8 = 0x80
+        DO3 = 0x03,
+        DO4 = 0x04,
+		DO5 = 0x05,
+        DO6 = 0x06,
+        DO7 = 0x07,
+        DO8 = 0x08
     }
 
     /**
@@ -66,7 +70,7 @@ namespace FtCalliMicro {
         pins.i2cWriteBuffer(addr, buf2)
     }
 
-    function i2cRead(addr: number, reg: number) {
+    function i2cRead(addr: number, reg: number): number {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
         let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE)
         return val
@@ -82,12 +86,12 @@ namespace FtCalliMicro {
     //% degree.min=0 degree.max=180
     //% degree.shadow="protractorPicker"
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
-    //% group="Motor"
+    //% group="Servo"
     export function servo(index: Servos, degree: number): void {
 
         let value = (degree * 2000 / 180 + 2000)
 
-        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, index, value)
+        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_SERVO_BASE + index, value)
     }
 
 }
