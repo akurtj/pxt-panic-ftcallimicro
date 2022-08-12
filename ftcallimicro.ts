@@ -22,7 +22,7 @@ namespace ftcallimicro {
     };
 
     /**
-     * The user selects the 4 motors.
+     * The user can select the 4 motors.
      */
     export enum Motors {
         M1 = 0x00,
@@ -32,7 +32,7 @@ namespace ftcallimicro {
     };
 	
 	/**
-     * The user selects the 8 digital outputs.
+     * The user can select the 8 digital outputs.
      */
     export enum DO {
         DO1 = 0x01,
@@ -57,7 +57,7 @@ namespace ftcallimicro {
 
     let initialized = false;
 
-    function i2cWrite(addr: number, reg: number, value: number) {
+    function i2cWrite(addr: number, reg: number, value: number): void {
         let buf = pins.createBuffer(2);
 		
         buf[0] = reg;
@@ -65,7 +65,7 @@ namespace ftcallimicro {
         pins.i2cWriteBuffer(addr, buf);
     }
 
-    function i2cCmd(addr: number, value: number) {
+    function i2cCmd(addr: number, value: number): void {
         let buf2 = pins.createBuffer(1);
 		
         buf2[0] = value;
@@ -138,7 +138,7 @@ namespace ftcallimicro {
     //% blockId=motor_MotorStop 
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4 
     //% group="Motor"
-    export function MotorStop(index: Motors) {
+    export function MotorStop(index: Motors): void {
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + index, 0);
     }
 
@@ -165,7 +165,7 @@ namespace ftcallimicro {
     //% blockId=digitalout_DigitalOutputOn
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Output"
-    export function DigitalOutputOn(index: DO) {
+    export function DigitalOutputOn(index: DO): void {
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE, index);
     }
 	
@@ -178,7 +178,7 @@ namespace ftcallimicro {
     //% blockId=digitalout_DigitalOutputOff
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Output"
-    export function DigitalOutputOff(index: DO) {
+    export function DigitalOutputOff(index: DO): void {
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE + 1, index);
     }
 
