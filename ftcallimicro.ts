@@ -92,6 +92,15 @@ namespace ftcallimicro {
     //% degree.shadow="protractorPicker"
     //% group="Servo"
     export function servo(index: Servos, degree: number): void {
+        /* Limit degree to valid range */
+        if (degree < 0) {
+            degree = 0;
+        }
+        
+        if (degree > 180) {
+            degree = 180;
+        }
+        
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_SERVO_BASE + index, degree);
     }
 	
@@ -106,9 +115,17 @@ namespace ftcallimicro {
 	//% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
 	//% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
     //% speed.min=0 speed.max=100
-    //% speed.shadow="turnRatioPicker"
     //% group="Motor"
     export function MotorRun(index: Motors, direction: Dir, speed: number): void {
+        /* Limit speed to valid range */
+        if (speed < 0) {
+            speed = 0;
+        }
+        
+        if (speed > 100) {
+            speed = 100;
+        }
+        
         i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + index, speed * Dir);
     }
 	
@@ -133,7 +150,6 @@ namespace ftcallimicro {
     //% blockId=motor_MotorStopAll 
     //% group="Motor"
     export function MotorStopAll(): void {
-        
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M1, 0);
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M2, 0);
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M3, 0);
