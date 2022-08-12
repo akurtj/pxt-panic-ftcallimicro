@@ -19,7 +19,7 @@ namespace ftcallimicro {
         S2 = 0x01,
         S3 = 0x02,
         S4 = 0x03
-    }
+    };
 
     /**
      * The user selects the 4 motors.
@@ -29,7 +29,7 @@ namespace ftcallimicro {
         M2 = 0x01,
         M3 = 0x02,
         M4 = 0x03
-    }
+    };
 	
 	/**
      * The user selects the 8 digital outputs.
@@ -43,7 +43,7 @@ namespace ftcallimicro {
         DO6 = 0x20,
         DO7 = 0x40,
         DO8 = 0x80
-    }
+    };
 
     /**
      * The user defines the motor rotation direction.
@@ -53,7 +53,7 @@ namespace ftcallimicro {
         CW = 1,
         //% blockId="CCW" block="CCW"
         CCW = -1
-    }
+    };
 
     let initialized = false;
 
@@ -126,7 +126,7 @@ namespace ftcallimicro {
             speed = 100;
         }
         
-        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + index, speed * Dir);
+        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + index, speed * direction);
     }
 	
 	/**
@@ -150,10 +150,10 @@ namespace ftcallimicro {
     //% blockId=motor_MotorStopAll 
     //% group="Motor"
     export function MotorStopAll(): void {
-		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M1, 0);
-		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M2, 0);
-		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M3, 0);
-		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + M4, 0);
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + Motors.M1, 0);
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + Motors.M2, 0);
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + Motors.M3, 0);
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + Motors.M4, 0);
     }
 	
 	/**
