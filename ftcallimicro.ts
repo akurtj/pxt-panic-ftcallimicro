@@ -2,7 +2,7 @@
  */
 //% weight=100 color=190 icon="\uf085"
 //% block="FtCalliMicro"
-//% groups=['Motor','Servo','Digital Output']
+//% groups=['Motor','Servo','Digital Output','Digital Input']
 namespace ftcallimicro {
     const FTCALLIMICRO_I2C_ADDRESS = 0x14
 	
@@ -10,6 +10,8 @@ namespace ftcallimicro {
 	const I2C_REG_SERVO_BASE  = 0x10
 	const I2C_REG_MOTOR_BASE  = 0x20
 	const I2C_REG_DO_BASE     = 0x30
+    const I2C_REG_DI_BASE     = 0x40
+    const I2C_REG_AI_BASE     = 0x50
 
     /**
      * The user can select the 4 servos.
@@ -44,6 +46,20 @@ namespace ftcallimicro {
         DO7 = 0x40,
         DO8 = 0x80
     };
+    
+    /**
+     * The user can select the 8 digital inputs.
+     */
+    export enum DI {
+        DI1 = 0x01,
+        DI2 = 0x02,
+        DI3 = 0x04,
+        DI4 = 0x08,
+		DI5 = 0x10,
+        DI6 = 0x20,
+        DI7 = 0x40,
+        DI8 = 0x80
+    };
 
     /**
      * The user defines the motor rotation direction.
@@ -72,9 +88,15 @@ namespace ftcallimicro {
         pins.i2cWriteBuffer(addr, buf2);
     }
 
-    function i2cRead(addr: number, reg: number): number {
+    function i2cReadByte(addr: number, reg: number): number {
         pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
         let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        return (val);
+    }
+    
+    function i2cReadWord(addr: number, reg: number): number {
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
+        let val = pins.i2cReadNumber(addr, NumberFormat.UInt16BE);
         return (val);
     }
 	
@@ -180,6 +202,28 @@ namespace ftcallimicro {
     //% group="Digital Output"
     export function DigitalOutputOff(index: DO): void {
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE + 1, index);
+    }
+    
+    /**
+	 * Digital Input control function.
+	 * DI1~DI8.
+    */
+    //% weight=100
+	//% block="Input |%index"
+    //% blockId=digitalin_DigitalInput
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
+    //% group="Digital Input"
+    export function DigitalInput(index: DI): boolean {
+		let callimicro_di_value = i2cReadByte(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DI_BASE);
+        
+        if (callimicro_di_value & index)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
