@@ -2,7 +2,7 @@
  */
 //% weight=100 color=190 icon="\uf085"
 //% block="FtCalliMicro"
-//% groups=['Motor','Servo','Digital Output','Digital Input']
+//% groups=['Motor','Servo','Digital Output','Digital Input','Analog Input']
 namespace ftcallimicro {
     const FTCALLIMICRO_I2C_ADDRESS = 0x14
 	
@@ -59,6 +59,20 @@ namespace ftcallimicro {
         DI6 = 0x20,
         DI7 = 0x40,
         DI8 = 0x80
+    };
+    
+    /**
+     * The user can select the 8 analog inputs.
+     */
+    export enum Analog {
+        AI1 = 0x00,
+        AI2 = 0x01,
+        AI3 = 0x02,
+        AI4 = 0x03,
+		AI5 = 0x04,
+        AI6 = 0x05,
+        AI7 = 0x06,
+        AI8 = 0x07
     };
 
     /**
@@ -224,6 +238,21 @@ namespace ftcallimicro {
         {
             return false;
         }
+    }
+    
+    /**
+	 * Analog Input control function.
+	 * AI1~AI8.
+    */
+    //% weight=100
+	//% block="Input |%index"
+    //% blockId=analogin_AnalogInput
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
+    //% group="Analog Input"
+    export function AnalogInput(index: Analog): number {
+		let callimicro_ai_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_AI_BASE + index);
+        
+        return callimicro_ai_value;
     }
 
 }
