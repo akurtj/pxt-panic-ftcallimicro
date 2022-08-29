@@ -38,6 +38,38 @@ namespace ftcallimicro {
     };
 	
 	/**
+     * The user can select counter, digital or ultrasonic of the counter channel 1.
+     */
+    export enum CounterModeCH1 {
+        //% blockId="counter" block="Counter"
+		CTR = 0x01,
+		//% blockId="digital" block="DigitalIn"
+        DIG = 0x02,
+		//% blockId="ultrasonic" block="Ultrasonic"
+        USS = 0x03
+    };
+	
+	/**
+     * The user can select counter or digital of the counter channel 2-4.
+     */
+    export enum CounterModeCH234 {
+        //% blockId="counter" block="Counter"
+		CTR = 0x01,
+		//% blockId="digital" block="DigitalIn"
+        DIG = 0x02
+    };
+	
+	/**
+     * The user can select the 4 counter channels.
+     */
+    export enum CounterChannel {
+        C1 = 0x01,
+        C2 = 0x02,
+        C3 = 0x04,
+        C4 = 0x08
+    };
+	
+	/**
      * The user can select the 4 servos.
      */
     export enum Servos {
@@ -190,6 +222,26 @@ namespace ftcallimicro {
 		}
 		
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CONFIG_BASE + 1, input_mode_select);
+    }
+	
+	/**
+	 * Counter Channel Configuration.
+	 * C1~C4.
+    */
+    //% weight=90
+	//% block="Counter 1: %in1|Counter 2: %in2|Counter 3: %in3|Counter 4: %in4"
+    //% blockId=config_CounterChannelConfig
+	//% in1.defl=CTR in2.defl=CTR in3.defl=CTR in4.defl=CTR
+    //% group="Config"
+    export function CounterChannelConfig(in1: CounterModeCH1,
+									     in2: CounterModeCH234,
+									     in3: CounterModeCH234,
+									     in4: CounterModeCH234): void {
+		let counter_mode_select = 0;
+		
+		counter_mode_select = in1 + (in2 << 2) + (in3 << 4) + (in4 << 6);
+		
+		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CONFIG_BASE + 2, counter_mode_select);
     }
 	
 
