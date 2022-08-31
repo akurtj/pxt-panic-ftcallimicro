@@ -178,7 +178,7 @@ namespace ftcallimicro {
     //% weight=100
 	//% block="Input 1: %in1|Input 2: %in2|Input 3: %in3|Input 4: %in4|Input 5: %in5|Input 6: %in6|Input 7: %in7|Input 8: %in8"
     //% blockId=config_InputChannelConfig
-	//% in1.defl=V in2.defl=V in3.defl=V in4.defl=V in5.defl=V in6.defl=V in7.defl=V in8.defl=V
+	//% in1.defl=InputChannelMode.V in2.defl=InputChannelMode.V in3.defl=InputChannelMode.V in4.defl=InputChannelMode.V in5.defl=InputChannelMode.V in6.defl=InputChannelMode.V in7.defl=InputChannelMode.V in8.defl=InputChannelMode.V
     //% group="Config"
     export function InputChannelConfig(in1: InputChannelMode,
 									   in2: InputChannelMode,
@@ -202,7 +202,7 @@ namespace ftcallimicro {
     //% weight=90
 	//% block="Counter 1: %in1|Counter 2: %in2|Counter 3: %in3|Counter 4: %in4"
     //% blockId=config_CounterChannelConfig
-	//% in1.defl=CTR in2.defl=CTR in3.defl=CTR in4.defl=CTR
+	//% in1.defl=CounterModeCH1.CTR in2.defl=CounterModeCH234.CTR in3.defl=CounterModeCH234.CTR in4.defl=CounterModeCH234.CTR
     //% group="Config"
     export function CounterChannelConfig(in1: CounterModeCH1,
 									     in2: CounterModeCH234,
