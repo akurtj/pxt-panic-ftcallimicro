@@ -203,7 +203,7 @@ namespace ftcallimicro {
     //% weight=90
 	//% block="Counter 1: %in1|Counter 2: %in2|Counter 3: %in3|Counter 4: %in4"
     //% blockId=CounterChannelConfig
-	//% in1.defl=CounterModeCH1.CTR in2.defl=CounterModeCH234.CTR in3.defl=CounterModeCH234.CTR in4.defl=CounterModeCH234.CTR
+	//% in1.defl=CounterModeCH1.USS in2.defl=CounterModeCH234.CTR in3.defl=CounterModeCH234.DIG in4.defl=CounterModeCH234.CTR
     //% group="Config"
     export function CounterChannelConfig(in1: CounterModeCH1,
 									     in2: CounterModeCH234,
