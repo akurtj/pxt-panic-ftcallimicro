@@ -2,7 +2,7 @@
  */
 //% weight=100 color=190 icon="\uf085"
 //% block="FtCalliMicro"
-//% groups=['Config','Motor','Servo','Digital Output','Digital Input','Analog Input']
+//% groups=['Config','Motor','Servo','Digital Output','Digital Input','Analog Input','Counter Input']
 namespace ftcallimicro {
     const FTCALLIMICRO_I2C_ADDRESS = 0x14
 	
@@ -12,15 +12,16 @@ namespace ftcallimicro {
 	const I2C_REG_DO_BASE     = 0x30
     const I2C_REG_DI_BASE     = 0x40
     const I2C_REG_AI_BASE     = 0x50
+	const I2C_REG_CTR_BASE    = 0x60
 
     /**
      * The user can select voltage or resistor mode of the input channels.
      */
-    export enum InputMode {
-        //% blockId="voltage" block="10V-Mode"
-		V = 0x01,
-		//% blockId="resistor" block="10K-Mode"
-        R = 0x02
+    export enum InputChannelMode {
+        //% blockId="resistor" block="10K-Mode"
+        R = 0x00,
+		//% blockId="voltage" block="10V-Mode"
+		V = 0x01	
     };
 	
 	/**
@@ -63,10 +64,10 @@ namespace ftcallimicro {
      * The user can select the 4 counter channels.
      */
     export enum CounterChannel {
-        C1 = 0x01,
-        C2 = 0x02,
-        C3 = 0x04,
-        C4 = 0x08
+        C1 = 0x00,
+        C2 = 0x01,
+        C3 = 0x02,
+        C4 = 0x03
     };
 	
 	/**
@@ -179,48 +180,18 @@ namespace ftcallimicro {
     //% blockId=config_InputChannelConfig
 	//% in1.defl=V in2.defl=V in3.defl=V in4.defl=V in5.defl=V in6.defl=V in7.defl=V in8.defl=V
     //% group="Config"
-    export function InputChannelConfig(in1: InputMode,
-									   in2: InputMode,
-									   in3: InputMode,
-									   in4: InputMode,
-									   in5: InputMode,
-									   in6: InputMode,
-									   in7: InputMode,
-									   in8: InputMode): void {
+    export function InputChannelConfig(in1: InputChannelMode,
+									   in2: InputChannelMode,
+									   in3: InputChannelMode,
+									   in4: InputChannelMode,
+									   in5: InputChannelMode,
+									   in6: InputChannelMode,
+									   in7: InputChannelMode,
+									   in8: InputChannelMode): void {
 		let input_mode_select = 0;
 		
-		if (in1 == InputMode.V) {
-			input_mode_select |= InputChannel.I1;
-		}
-		
-		if (in2 == InputMode.V) {
-			input_mode_select |= InputChannel.I2;
-		}
-		
-		if (in3 == InputMode.V) {
-			input_mode_select |= InputChannel.I3;
-		}
-		
-		if (in4 == InputMode.V) {
-			input_mode_select |= InputChannel.I4;
-		}
-		
-		if (in5 == InputMode.V) {
-			input_mode_select |= InputChannel.I5;
-		}
-		
-		if (in6 == InputMode.V) {
-			input_mode_select |= InputChannel.I6;
-		}
-		
-		if (in7 == InputMode.V) {
-			input_mode_select |= InputChannel.I7;
-		}
-		
-		if (in8 == InputMode.V) {
-			input_mode_select |= InputChannel.I8;
-		}
-		
+		input_mode_select = in1 + (in2 << 1) + (in3 << 2) + (in4 << 3) + (in5 << 4) + (in6 << 5) + (in7 << 6) + (in8 << 7);
+			
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CONFIG_BASE + 1, input_mode_select);
     }
 	
