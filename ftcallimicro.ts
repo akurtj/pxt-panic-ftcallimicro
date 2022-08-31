@@ -1,4 +1,5 @@
 /**
+ *
  */
 //% weight=100 color=190 icon="\uf085"
 //% block="FtCalliMicro"
@@ -18,9 +19,9 @@ namespace ftcallimicro {
      * The user can select voltage or resistor mode of the input channels.
      */
     export enum InputChannelMode {
-        //% blockId="resistor" block="10K-Mode"
+        //% block="10K-Mode"
         R = 0x00,
-		//% blockId="voltage" block="10V-Mode"
+		//% block="10V-Mode"
 		V = 0x01	
     };
 	
@@ -42,11 +43,11 @@ namespace ftcallimicro {
      * The user can select counter, digital or ultrasonic of the counter channel 1.
      */
     export enum CounterModeCH1 {
-        //% blockId="counter" block="Counter"
+        //% block="Counter"
 		CTR = 0x01,
-		//% blockId="digital" block="DigitalIn"
+		//% block="DigitalIn"
         DIG = 0x02,
-		//% blockId="ultrasonic" block="Ultrasonic"
+		//% block="Ultrasonic"
         USS = 0x03
     };
 	
@@ -54,9 +55,9 @@ namespace ftcallimicro {
      * The user can select counter or digital of the counter channel 2-4.
      */
     export enum CounterModeCH234 {
-        //% blockId="counter" block="Counter"
+        //% block="Counter"
 		CTR = 0x01,
-		//% blockId="digital" block="DigitalIn"
+		//% block="DigitalIn"
         DIG = 0x02
     };
 	
@@ -136,9 +137,9 @@ namespace ftcallimicro {
      * The user defines the motor rotation direction.
      */
     export enum Dir {
-        //% blockId="CW" block="CW"
+        //% block="CW"
         CW = 1,
-        //% blockId="CCW" block="CCW"
+        //% block="CCW"
         CCW = -1
     };
 
@@ -177,7 +178,7 @@ namespace ftcallimicro {
     */
     //% weight=100
 	//% block="Input 1: %in1|Input 2: %in2|Input 3: %in3|Input 4: %in4|Input 5: %in5|Input 6: %in6|Input 7: %in7|Input 8: %in8"
-    //% blockId=config_InputChannelConfig
+    //% blockId=InputChannelConfig
 	//% in1.defl=InputChannelMode.V in2.defl=InputChannelMode.V in3.defl=InputChannelMode.V in4.defl=InputChannelMode.V in5.defl=InputChannelMode.V in6.defl=InputChannelMode.V in7.defl=InputChannelMode.V in8.defl=InputChannelMode.V
     //% group="Config"
     export function InputChannelConfig(in1: InputChannelMode,
@@ -201,7 +202,7 @@ namespace ftcallimicro {
     */
     //% weight=90
 	//% block="Counter 1: %in1|Counter 2: %in2|Counter 3: %in3|Counter 4: %in4"
-    //% blockId=config_CounterChannelConfig
+    //% blockId=CounterChannelConfig
 	//% in1.defl=CounterModeCH1.CTR in2.defl=CounterModeCH234.CTR in3.defl=CounterModeCH234.CTR in4.defl=CounterModeCH234.CTR
     //% group="Config"
     export function CounterChannelConfig(in1: CounterModeCH1,
@@ -223,12 +224,12 @@ namespace ftcallimicro {
 	*/
 	//% weight=100
     //% block="Servo|%index|degree|%degree|°"
-	//% blockId=servo_servo
+	//% blockId=Servo
 	//% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
     //% degree.min=0 degree.max=180
     //% degree.shadow="protractorPicker"
     //% group="Servo"
-    export function servo(index: Servos, degree: number): void {
+    export function Servo(index: Servos, degree: number): void {
         /* Limit degree to valid range */
         if (degree < 0) {
             degree = 0;
@@ -248,7 +249,7 @@ namespace ftcallimicro {
     */
     //% weight=100
 	//% block="Motor|%index|dir|%Dir|speed|%speed|%"
-    //% blockId=motor_MotorRun
+    //% blockId=MotorRun
 	//% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
 	//% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
     //% speed.min=0 speed.max=100
@@ -272,7 +273,7 @@ namespace ftcallimicro {
     */
     //% weight=90
 	//% block="Motor Stop|%index"
-    //% blockId=motor_MotorStop 
+    //% blockId=MotorStop 
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4 
     //% group="Motor"
     export function MotorStop(index: Motors): void {
@@ -284,7 +285,7 @@ namespace ftcallimicro {
     */
     //% weight=85
 	//% block="Motor Stop All"
-    //% blockId=motor_MotorStopAll 
+    //% blockId=MotorStopAll 
     //% group="Motor"
     export function MotorStopAll(): void {
 		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_MOTOR_BASE + Motors.M1, 0);
@@ -299,7 +300,7 @@ namespace ftcallimicro {
     */
     //% weight=100
 	//% block="Output ON|%index"
-    //% blockId=digitalout_DigitalOutputOn
+    //% blockId=DigitalOutputOn
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Output"
     export function DigitalOutputOn(index: DO): void {
@@ -312,7 +313,7 @@ namespace ftcallimicro {
     */
     //% weight=90
 	//% block="Output OFF|%index"
-    //% blockId=digitalout_DigitalOutputOff
+    //% blockId=DigitalOutputOff
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Output"
     export function DigitalOutputOff(index: DO): void {
@@ -325,7 +326,7 @@ namespace ftcallimicro {
     */
     //% weight=100
 	//% block="Input |%index"
-    //% blockId=digitalin_DigitalInput
+    //% blockId=DigitalInput
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Input"
     export function DigitalInput(index: DI): boolean {
@@ -347,7 +348,7 @@ namespace ftcallimicro {
     */
     //% weight=100
 	//% block="Input |%index"
-    //% blockId=analogin_AnalogInput
+    //% blockId=AnalogInput
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Analog Input"
     export function AnalogInput(index: Analog): number {
