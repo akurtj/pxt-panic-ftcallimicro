@@ -355,5 +355,42 @@ namespace ftcallimicro {
         
         return callimicro_ai_value;
     }
+	
+	/**
+	 * Counter Input control function (as counter input).
+	 * CTRC1~CTRC4.
+    */
+    //% weight=100
+	//% block="Counter (C) |%index"
+    //% blockId=CounterInputCounter
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
+    //% group="Counter Input"
+    export function CounterInputCounter(index: CounterChannel): number {
+		let callimicro_ctrc_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CTR_BASE + index);
+        
+        return callimicro_ctrc_value;
+    }
+	
+	/**
+	 * Counter Input control function (as digital input).
+	 * CTRD1~CTRD4.
+    */
+    //% weight=90
+	//% block="Counter (D) |%index"
+    //% blockId=CounterInputDigital
+    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
+    //% group="Counter Input"
+    export function CounterInputDigital(index: CounterChannel): boolean {
+		let callimicro_ctrd_value = i2cReadByte(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CTR_BASE + 4);
+        
+        if (callimicro_ctrd_value & (0x01 << index))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
