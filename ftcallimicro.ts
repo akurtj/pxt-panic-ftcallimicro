@@ -3,7 +3,7 @@
  */
 //% weight=100 color=190 icon="\uf085"
 //% block="FtCalliMicro"
-//% groups=['Config','Motor','Servo','Digital Output','Digital Input','Analog Input','Counter Input']
+//% groups=['Config','Motor','Servo','Digital Output','Digital Input','Analog Input','Counter Input','Ultrasonic']
 namespace ftcallimicro {
     const FTCALLIMICRO_I2C_ADDRESS = 0x14
 	
@@ -14,6 +14,7 @@ namespace ftcallimicro {
     const I2C_REG_DI_BASE     = 0x40
     const I2C_REG_AI_BASE     = 0x50
 	const I2C_REG_CTR_BASE    = 0x60
+    const I2C_REG_USS_BASE    = 0x70
 
     /**
      * The user can select voltage or resistor mode of the input channels.
@@ -347,7 +348,7 @@ namespace ftcallimicro {
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Analog Input"
     export function AnalogInput(index: Analog): number {
-		let callimicro_ai_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_AI_BASE + index);
+		let callimicro_ai_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_AI_BASE + (index * 2));
         
         return callimicro_ai_value;
     }
@@ -362,7 +363,7 @@ namespace ftcallimicro {
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
     //% group="Counter Input"
     export function CounterInputCounter(index: CounterChannel): number {
-		let callimicro_ctrc_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CTR_BASE + index);
+		let callimicro_ctrc_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CTR_BASE + (index * 2));
         
         return callimicro_ctrc_value;
     }
@@ -377,7 +378,7 @@ namespace ftcallimicro {
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=4
     //% group="Counter Input"
     export function CounterInputDigital(index: CounterChannel): boolean {
-		let callimicro_ctrd_value = i2cReadByte(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CTR_BASE + 4);
+		let callimicro_ctrd_value = i2cReadByte(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_CTR_BASE + (4 * 2));
         
         if (callimicro_ctrd_value & (0x01 << index))
         {
@@ -386,6 +387,20 @@ namespace ftcallimicro {
         else
         {
             return false;
+        }
+    }
+    
+    /**
+	 * Ultrasonic Sensor get function (if CTR_CH1 configured as USS).
+	 * .
+    */
+    //% weight=100
+    //% blockId=UltraSonicSensorInput
+    //% group="Ultrasonic"
+    export function UltraSonicSensorInput(): number {
+		let uss_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_USS_BASE);
+        
+        return uss_value;
         }
     }
 
