@@ -401,7 +401,6 @@ namespace ftcallimicro {
 		let uss_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_USS_BASE);
         
         return uss_value;
-        }
     }
 
 }
