@@ -3,7 +3,7 @@
  */
 //% weight=100 color=190 icon="\uf085"
 //% block="FtCalliMicro"
-//% groups=['Config','Motor','Servo','Digital Output','Digital Input','Analog Input','Counter Input','Ultrasonic']
+//% groups=['Config','Motor','Servo','Digital Output','Digital Input','Analog Input','Counter Input','Ultrasonic Sensor']
 namespace ftcallimicro {
     const FTCALLIMICRO_I2C_ADDRESS = 0x14
 	
@@ -392,11 +392,12 @@ namespace ftcallimicro {
     
     /**
 	 * Ultrasonic Sensor get function (if CTR_CH1 configured as USS).
-	 * .
+	 * 
     */
     //% weight=100
+    //% block="Ultrasonic Sensor"
     //% blockId=UltraSonicSensorInput
-    //% group="Ultrasonic"
+    //% group="Ultrasonic Sensor"
     export function UltraSonicSensorInput(): number {
 		let uss_value = i2cReadWord(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_USS_BASE);
         
