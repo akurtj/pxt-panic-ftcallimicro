@@ -143,6 +143,16 @@ namespace ftcallimicro {
         //% block="CCW"
         CCW = -1
     };
+    
+    /**
+     * The user defines the digital output action.
+     */
+    export enum ONOFF {
+        //% block="ON"
+        ON = 1,
+        //% block="OFF"
+        OFF = 0
+    };
 
     let initialized = false;
 
@@ -151,25 +161,18 @@ namespace ftcallimicro {
 		
         buf[0] = reg;
         buf[1] = value;
-        pins.i2cWriteBuffer(addr, buf);
+        pins.i2cWriteBuffer(addr, buf, false);
     }
-
-    function i2cCmd(addr: number, value: number): void {
-        let buf2 = pins.createBuffer(1);
-		
-        buf2[0] = value;
-        pins.i2cWriteBuffer(addr, buf2);
-    }
-
+    
     function i2cReadByte(addr: number, reg: number): number {
-        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE, true);
+        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE, false);
         return (val);
     }
     
     function i2cReadWord(addr: number, reg: number): number {
-        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
-        let val = pins.i2cReadNumber(addr, NumberFormat.UInt16BE);
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE, true);
+        let val = pins.i2cReadNumber(addr, NumberFormat.UInt16BE, false);
         return (val);
     }
 	
@@ -294,33 +297,26 @@ namespace ftcallimicro {
     }
 	
 	/**
-	 * Digital Output control function: ON.
+	 * Digital Output set function: ON/OFF.
 	 * DO1~DO8.
     */
     //% weight=100
-	//% block="Output ON|%index"
+	//% block="Output |%index|ON/OFF |%action"
     //% blockId=DigitalOutputOn
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Output"
-    export function DigitalOutputOn(index: DO): void {
-		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE, index);
+    export function DigitalOutputOn(index: DO, action: ONOFF): void {
+		if (action == ONOFF.OFF)
+        {
+            index = ~index;
+        }
+        
+        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE, index);
     }
 	
-	/**
-	 * Digital Output control function: OFF.
-	 * DO1~DO8.
-    */
-    //% weight=90
-	//% block="Output OFF|%index"
-    //% blockId=DigitalOutputOff
-    //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
-    //% group="Digital Output"
-    export function DigitalOutputOff(index: DO): void {
-		i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE + 1, index);
-    }
-    
+	    
     /**
-	 * Digital Input control function.
+	 * Digital Input get function.
 	 * DI1~DI8.
     */
     //% weight=100
@@ -342,7 +338,7 @@ namespace ftcallimicro {
     }
     
     /**
-	 * Analog Input control function.
+	 * Analog Input get function.
 	 * AI1~AI8.
     */
     //% weight=100
@@ -357,7 +353,7 @@ namespace ftcallimicro {
     }
 	
 	/**
-	 * Counter Input control function (as counter input).
+	 * Counter Input get function (as counter input).
 	 * CTRC1~CTRC4.
     */
     //% weight=100
@@ -372,7 +368,7 @@ namespace ftcallimicro {
     }
 	
 	/**
-	 * Counter Input control function (as digital input).
+	 * Counter Input get function (as digital input).
 	 * CTRD1~CTRD4.
     */
     //% weight=90
