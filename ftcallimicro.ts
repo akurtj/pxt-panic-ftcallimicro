@@ -97,14 +97,14 @@ namespace ftcallimicro {
      * The user can select the 8 digital outputs.
      */
     export enum DO {
-        DO1 = 0x01,
-        DO2 = 0x02,
-        DO3 = 0x04,
-        DO4 = 0x08,
-		DO5 = 0x10,
-        DO6 = 0x20,
-        DO7 = 0x40,
-        DO8 = 0x80
+        DO1 = 0x00,
+        DO2 = 0x01,
+        DO3 = 0x02,
+        DO4 = 0x03,
+		DO5 = 0x04,
+        DO6 = 0x05,
+        DO7 = 0x06,
+        DO8 = 0x07
     };
 	
 	/**
@@ -303,16 +303,18 @@ namespace ftcallimicro {
     */
     //% weight=100
 	//% block="Output |%index|ON/OFF |%action"
-    //% blockId=DigitalOutputOn
+    //% blockId=DigitalOutput
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=8
     //% group="Digital Output"
-    export function DigitalOutputOn(index: DO, action: ONOFF): void {
+    export function DigitalOutput(index: DO, action: ONOFF): void {
 		if (action == ONOFF.OFF)
         {
-            index = ~index;
+            i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE + index, 0);
         }
-        
-        i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE, index);
+		else
+		{
+			i2cWrite(FTCALLIMICRO_I2C_ADDRESS, I2C_REG_DO_BASE + index, 1);
+		}
     }
 	
 	    
